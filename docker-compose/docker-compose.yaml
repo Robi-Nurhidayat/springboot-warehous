@@ -1,0 +1,18 @@
+version: "3.7"
+services:
+  DB_PRODUCT:
+    container_name: inventory-db
+    image: mongo:6.0-jammy
+    restart: always
+    shm_size: 256mb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=test
+      - MONGO_INITDB_ROOT_PASSWORD=test
+      - MONGO_INITDB_DATABASE=inventory
+    volumes:
+      - product_data:/data/db
+
+volumes:
+  product_data:
