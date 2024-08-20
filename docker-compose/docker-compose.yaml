@@ -1,18 +1,18 @@
 version: "3.7"
 services:
-  DB_PRODUCT:
+  inventory_db:
     container_name: inventory-db
-    image: mongo:6.0-jammy
+    image: postgres:16-alpine
     restart: always
     shm_size: 256mb
     ports:
-      - "27017:27017"
+      - "5435:5432"
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=test
-      - MONGO_INITDB_ROOT_PASSWORD=test
-      - MONGO_INITDB_DATABASE=inventory
+      - POSTGRES_PASSWORD=app
+      - POSTGRES_USER=app
+      - POSTGRES_DB=inventory
     volumes:
-      - product_data:/data/db
+      - app_data:/var/lib/postgresql/data
 
 volumes:
-  product_data:
+  app_data:
