@@ -24,10 +24,16 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(new Response(ProductConstants.STATUS_200,"success get data",allProduct));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<Response> findProductByName(@RequestParam("name") String name){
+        Product productByName = productService.findProductByName(name);
+        return ResponseEntity.status(HttpStatus.OK).body(new Response(ProductConstants.STATUS_200,"success get data",productByName));
+    }
+
     @PostMapping
     public ResponseEntity<Response> createProduct(@RequestBody Product product) {
         Product newProduct = productService.save(product);
-        return ResponseEntity.status(HttpStatus.OK).body(new Response(ProductConstants.STATUS_200,"success get data",newProduct));
+        return ResponseEntity.status(HttpStatus.OK).body(new Response(ProductConstants.STATUS_201,"success get data",newProduct));
 
     }
 }

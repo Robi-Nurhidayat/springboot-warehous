@@ -11,5 +11,7 @@ public interface IProductService {
     Product findProductByName(String productName);
     Product save(Product product);
     boolean delete(Long productId);
+    Product update(Product product);
+
 
 }

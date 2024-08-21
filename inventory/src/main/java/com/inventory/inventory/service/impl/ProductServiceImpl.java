@@ -13,6 +13,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements IProductService {
 
+
     private final ProductRepository productRepository;
 
     @Override
@@ -64,5 +65,20 @@ public class ProductServiceImpl implements IProductService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Product update(Product product) {
+        Product foundedProduct = productRepository.findByName(product.getName()).orElseThrow(
+                () -> new RuntimeException("Not found")
+        );
+
+        foundedProduct.setName(product.getName());
+        foundedProduct.setQuantity(product.getQuantity());
+        foundedProduct.setProductType(product.getProductType());
+
+        Product updatedProduct = productRepository.save(foundedProduct);
+        return updatedProduct;
+
     }
 }
