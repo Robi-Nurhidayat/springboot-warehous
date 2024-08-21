@@ -1,4 +1,4 @@
-package com.inventory.inventory.exception;
+package com.inventory.inventory.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

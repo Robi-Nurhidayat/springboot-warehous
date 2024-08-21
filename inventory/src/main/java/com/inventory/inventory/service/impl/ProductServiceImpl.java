@@ -1,6 +1,6 @@
 package com.inventory.inventory.service.impl;
 
-import com.inventory.inventory.exception.Product;
+import com.inventory.inventory.entity.Product;
 import com.inventory.inventory.repository.ProductRepository;
 import com.inventory.inventory.service.IProductService;
 import lombok.RequiredArgsConstructor;
@@ -38,14 +38,18 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public void save(Product product) {
+    public Product save(Product product) {
         Optional<Product> foundedProduct = productRepository.findByName(product.getName());
         if (foundedProduct.isPresent()) {
             Product productUpdated = foundedProduct.get();
             productUpdated.setQuantity(productUpdated.getQuantity() + product.getQuantity());
-            productRepository.save(productUpdated);
+            Product saveProductUpdated = productRepository.save(productUpdated);
+            return saveProductUpdated;
+
         }{
-            productRepository.save(product);
+            Product newProduct = productRepository.save(product);
+            return newProduct;
+
         }
     }
 
