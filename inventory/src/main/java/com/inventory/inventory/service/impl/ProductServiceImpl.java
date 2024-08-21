@@ -1,6 +1,7 @@
 package com.inventory.inventory.service.impl;
 
 import com.inventory.inventory.entity.Product;
+import com.inventory.inventory.exception.ResourceNotFoundException;
 import com.inventory.inventory.repository.ProductRepository;
 import com.inventory.inventory.service.IProductService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public Product findById(Long productId) {
         Product foundedProduct = productRepository.findById(productId).orElseThrow(
-                () -> new RuntimeException("Not found")
+                () -> new ResourceNotFoundException("Product","id", productId.toString())
         );
 
         return foundedProduct;
@@ -33,7 +34,7 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public Product findProductByName(String productName) {
         Product foundedProduct = productRepository.findByName(productName).orElseThrow(
-                () -> new RuntimeException("Not found")
+                () -> new ResourceNotFoundException("Product","name", productName)
         );
         return foundedProduct;
     }
@@ -57,7 +58,7 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public boolean delete(Long productId) {
         Product foundedProduct = productRepository.findById(productId).orElseThrow(
-                () -> new RuntimeException("Not found")
+                () -> new ResourceNotFoundException("Product","id", productId.toString())
         );
 
         if (foundedProduct != null) {
@@ -70,7 +71,7 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public Product update(Product product) {
         Product foundedProduct = productRepository.findById(product.getId()).orElseThrow(
-                () -> new RuntimeException("Not found")
+                () -> new ResourceNotFoundException("Product","id", product.getId().toString())
         );
 
         foundedProduct.setName(product.getName());

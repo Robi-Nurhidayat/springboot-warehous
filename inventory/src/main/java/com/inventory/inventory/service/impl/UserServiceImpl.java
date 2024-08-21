@@ -1,6 +1,7 @@
 package com.inventory.inventory.service.impl;
 
 import com.inventory.inventory.entity.User;
+import com.inventory.inventory.exception.ResourceNotFoundException;
 import com.inventory.inventory.repository.UserRepository;
 import com.inventory.inventory.service.IUserService;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +20,6 @@ public class UserServiceImpl implements IUserService {
         return userRepository.findAll();
     }
 
-    @Override
-    public User findById(Long userId) {
-
-        User foundUser = userRepository.findById(userId).orElseThrow(
-                () -> new RuntimeException("Not found")
-        );
-        return foundUser;
-    }
 
     @Override
     public User save(User user) {
@@ -53,7 +46,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public boolean deleteUser(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(
-                () -> new RuntimeException("Not found")
+                () -> new ResourceNotFoundException("User","id", userId.toString())
         );
         if (user != null) {
             userRepository.deleteById(userId);

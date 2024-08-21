@@ -4,6 +4,8 @@ import com.inventory.inventory.dto.BorrowingDTO;
 import com.inventory.inventory.entity.Borrowing;
 import com.inventory.inventory.entity.Product;
 import com.inventory.inventory.entity.User;
+import com.inventory.inventory.exception.RequestTidakSesuai;
+import com.inventory.inventory.exception.ResourceNotFoundException;
 import com.inventory.inventory.repository.BorrowingRepository;
 import com.inventory.inventory.repository.ProductRepository;
 import com.inventory.inventory.repository.UserRepository;
@@ -24,17 +26,17 @@ public class BorrowingServiceImpl implements IBorrowingService {
 
         // find user
         User userById = userRepository.findById(borrowingDTO.getUserId()).orElseThrow(
-                () -> new RuntimeException("Not Found")
+                () -> new ResourceNotFoundException("User","id", borrowingDTO.getUserId().toString())
         );
 
         // find product
         Product productById = productRepository.findById(borrowingDTO.getProductId()).orElseThrow(
-                () -> new RuntimeException("Not Found")
+                () -> new ResourceNotFoundException("Product","id", borrowingDTO.getProductId().toString())
         );
 
         // cek apakah pinjaman lebih besar dari stok di inventory product
         if (productById.getQuantity() < borrowingDTO.getQuantity()) {
-            throw new RuntimeException("Insufficient quantity available");
+            throw new RequestTidakSesuai("Pinjaman melebihi stok");
         }
 
         Borrowing borrowing = new Borrowing();
@@ -55,11 +57,11 @@ public class BorrowingServiceImpl implements IBorrowingService {
 
 
         Borrowing borrowing = borrowingRepository.findById(borrowId).orElseThrow(
-                () -> new RuntimeException("Not Found")
+                () -> new ResourceNotFoundException("Borrow","id", borrowId.toString())
         );
 
         Product product = productRepository.findById(borrowing.getProduct().getId()).orElseThrow(
-                () -> new RuntimeException("Not found")
+                () -> new ResourceNotFoundException("Product","id", borrowing.getProduct().getId().toString())
         );
 
         product.setQuantity(product.getQuantity() + borrowing.getQuantity());
