@@ -36,4 +36,11 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(new Response(ProductConstants.STATUS_201,"success get data",newProduct));
 
     }
+
+    @PutMapping
+    public ResponseEntity<Response> updateProduct(@RequestBody Product product) {
+        Product updatedProduct = productService.update(product);
+        return ResponseEntity.status(HttpStatus.OK).body(new Response(ProductConstants.STATUS_201,"success get data",updatedProduct));
+
+    }
 }

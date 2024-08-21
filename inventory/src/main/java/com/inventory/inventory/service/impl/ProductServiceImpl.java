@@ -69,7 +69,7 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public Product update(Product product) {
-        Product foundedProduct = productRepository.findByName(product.getName()).orElseThrow(
+        Product foundedProduct = productRepository.findById(product.getId()).orElseThrow(
                 () -> new RuntimeException("Not found")
         );
 
