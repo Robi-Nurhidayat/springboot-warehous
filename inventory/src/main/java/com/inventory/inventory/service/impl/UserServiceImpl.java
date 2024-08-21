@@ -31,15 +31,16 @@ public class UserServiceImpl implements IUserService {
     @Override
     public User save(User user) {
 
-        Optional<User> foundedUser = userRepository.findById(user.getId());
-        if (foundedUser.isPresent()) {
-            User userUpdated = foundedUser.get();
-            userUpdated.setName(user.getName());
-            userUpdated.setRole(user.getRole());
-            User saveUser = userRepository.save(userUpdated);
-            return saveUser;
+        if (user.getId() != null) {
+            Optional<User> foundedUser = userRepository.findById(user.getId());
+            if (foundedUser.isPresent()) {
+                User userUpdated = foundedUser.get();
+                userUpdated.setName(user.getName());
+                userUpdated.setRole(user.getRole());
+                User saveUser = userRepository.save(userUpdated);
+                return saveUser;
+            }
         }
-
         User saveUser = userRepository.save(user);
         return saveUser;
     }
