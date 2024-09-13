@@ -1,0 +1,25 @@
+services:
+  postgres:
+    container_name: inventory_new
+    image: postgres:16-alpine
+    restart: always
+    shm_size: 256mb
+    ports:
+      - "4040:5432"
+    environment:
+      - POSTGRES_PASSWORD=app
+      - POSTGRES_USER=app
+      - POSTGRES_DB=inventory
+    volumes:
+      - karyawan:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.2"
+          memory: 128M
+
+volumes:
+  karyawan:

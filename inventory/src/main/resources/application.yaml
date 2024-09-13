@@ -4,7 +4,7 @@ spring:
   application:
     name: "inventory"
   datasource:
-    url: jdbc:postgresql://localhost:5435/inventory
+    url: jdbc:postgresql://localhost:4040/inventory
     username: app
     password: app
   jpa:
